@@ -33,11 +33,12 @@ from streamlit.proto.ForwardMsg_pb2 import ForwardMsg
 from streamlit.runtime import Runtime, SessionClient, SessionClientDisconnectedError
 from streamlit.runtime.runtime_util import serialize_forward_msg
 from streamlit.web.server.server_util import is_url_from_allowed_origins
+from streamlit.web.server.mixins import IpAllowlistMixin
 
 _LOGGER: Final = get_logger(__name__)
 
 
-class BrowserWebSocketHandler(WebSocketHandler, SessionClient):
+class BrowserWebSocketHandler(IpAllowlistMixin, WebSocketHandler, SessionClient):
     """Handles a WebSocket connection from the browser"""
 
     def initialize(self, runtime: Runtime) -> None:

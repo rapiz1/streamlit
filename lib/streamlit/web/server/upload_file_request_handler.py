@@ -22,10 +22,10 @@ import tornado.web
 from streamlit import config
 from streamlit.runtime.memory_uploaded_file_manager import MemoryUploadedFileManager
 from streamlit.runtime.uploaded_file_manager import UploadedFileRec
-from streamlit.web.server import routes, server_util
+from streamlit.web.server import routes, server_util, mixins
 
 
-class UploadFileRequestHandler(tornado.web.RequestHandler):
+class UploadFileRequestHandler(mixins.IpAllowlistMixin, tornado.web.RequestHandler):
     """Implements the POST /upload_file endpoint."""
 
     def initialize(

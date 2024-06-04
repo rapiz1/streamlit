@@ -23,6 +23,7 @@ from streamlit import config, file_util
 from streamlit.logger import get_logger
 from streamlit.runtime.runtime_util import serialize_forward_msg
 from streamlit.web.server.server_util import emit_endpoint_deprecation_notice
+from streamlit.web.server.mixins import IpAllowlistMixin
 
 _LOGGER: Final = get_logger(__name__)
 
@@ -40,7 +41,7 @@ def allow_cross_origin_requests() -> bool:
     )
 
 
-class StaticFileHandler(tornado.web.StaticFileHandler):
+class StaticFileHandler(IpAllowlistMixin, tornado.web.StaticFileHandler):
     def initialize(
         self,
         path: str,
@@ -88,13 +89,13 @@ class StaticFileHandler(tornado.web.StaticFileHandler):
             super().write_error(status_code, **kwargs)
 
 
-class AddSlashHandler(tornado.web.RequestHandler):
+class AddSlashHandler(IpAllowlistMixin, tornado.web.RequestHandler):
     @tornado.web.addslash
     def get(self):
         pass
 
 
-class _SpecialRequestHandler(tornado.web.RequestHandler):
+class _SpecialRequestHandler(IpAllowlistMixin, tornado.web.RequestHandler):
     """Superclass for "special" endpoints, like /healthz."""
 
     def set_default_headers(self):
@@ -224,7 +225,7 @@ class HostConfigHandler(_SpecialRequestHandler):
         self.set_status(200)
 
 
-class MessageCacheHandler(tornado.web.RequestHandler):
+class MessageCacheHandler(IpAllowlistMixin, tornado.web.RequestHandler):
     """Returns ForwardMsgs from our MessageCache"""
 
     def initialize(self, cache):

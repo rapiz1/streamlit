@@ -23,11 +23,12 @@ import tornado.web
 import streamlit.web.server.routes
 from streamlit.components.types.base_component_registry import BaseComponentRegistry
 from streamlit.logger import get_logger
+from streamlit.web.server.mixins import IpAllowlistMixin
 
 _LOGGER: Final = get_logger(__name__)
 
 
-class ComponentRequestHandler(tornado.web.RequestHandler):
+class ComponentRequestHandler(IpAllowlistMixin, tornado.web.RequestHandler):
     def initialize(self, registry: BaseComponentRegistry):
         self._registry = registry
 

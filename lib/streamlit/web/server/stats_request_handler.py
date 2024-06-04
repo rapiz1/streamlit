@@ -20,12 +20,13 @@ import tornado.web
 
 from streamlit.runtime.stats import CacheStat, StatsManager
 from streamlit.web.server.server_util import emit_endpoint_deprecation_notice
+from streamlit.web.server.mixins import IpAllowlistMixin
 
 if TYPE_CHECKING:
     from streamlit.proto.openmetrics_data_model_pb2 import MetricSet as MetricSetProto
 
 
-class StatsRequestHandler(tornado.web.RequestHandler):
+class StatsRequestHandler(IpAllowlistMixin, tornado.web.RequestHandler):
     def initialize(self, stats_manager: StatsManager) -> None:
         self._manager = stats_manager
 

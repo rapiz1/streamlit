@@ -42,6 +42,7 @@ from streamlit.web.server.app_static_file_handler import AppStaticFileHandler
 from streamlit.web.server.browser_websocket_handler import BrowserWebSocketHandler
 from streamlit.web.server.component_request_handler import ComponentRequestHandler
 from streamlit.web.server.media_file_handler import MediaFileHandler
+from streamlit.web.server.mixins import IpAllowlistMixin
 from streamlit.web.server.routes import (
     AddSlashHandler,
     HealthHandler,
@@ -235,6 +236,9 @@ class Server:
         # Initialize MediaFileStorage and its associated endpoint
         media_file_storage = MemoryMediaFileStorage(MEDIA_ENDPOINT)
         MediaFileHandler.initialize_storage(media_file_storage)
+
+        # Initialize ip whitelist
+        IpAllowlistMixin.initialize_ip_allowlist()
 
         uploaded_file_mgr = MemoryUploadedFileManager(UPLOAD_FILE_ENDPOINT)
 

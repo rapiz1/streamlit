@@ -24,12 +24,12 @@ from streamlit.runtime.memory_media_file_storage import (
     MemoryMediaFileStorage,
     get_extension_for_mimetype,
 )
-from streamlit.web.server import allow_cross_origin_requests
+from streamlit.web.server import allow_cross_origin_requests, mixins
 
 _LOGGER = get_logger(__name__)
 
 
-class MediaFileHandler(tornado.web.StaticFileHandler):
+class MediaFileHandler(mixins.IpAllowlistMixin, tornado.web.StaticFileHandler):
     _storage: MemoryMediaFileStorage
 
     @classmethod

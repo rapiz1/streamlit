@@ -831,6 +831,15 @@ _create_option(
     type_=bool,
 )
 
+_create_option(
+    "server.ipAllowlist",
+    description="""
+        Only allow subnets in the comma seperated list to connect
+    """,
+    default_val="",
+    type_=str,
+)
+
 # Config Section: Browser #
 
 _create_section("browser", "Configuration of non-UI browser options.")
