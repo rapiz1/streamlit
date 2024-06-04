@@ -834,7 +834,7 @@ _create_option(
 _create_option(
     "server.ipAllowlist",
     description="""
-        Only allow subnets in the comma seperated list to connect
+        Only allow subnets in the comma separated list to connect
     """,
     default_val="",
     type_=str,
